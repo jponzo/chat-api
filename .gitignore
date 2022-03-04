@@ -1,0 +1,11 @@
+__pycache__
+.vscode
+.envrc
+*.pyc
+.venv
+mongo-entrypoint
+htmlcov/
+chat_api.egg-info/
+.coverage
+.env
+.idea/
