@@ -19,3 +19,4 @@ requests==2.26.0
 pytest-cov==3.0.0
 pyyaml
 sqlalchemy
+PyJWT==1.7.1

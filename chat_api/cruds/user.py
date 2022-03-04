@@ -27,3 +27,7 @@ class UserCrud():
     def list(db: Session):
         users = db.query(UserModel).all()
         return users
+
+    def login(db: Session, user_email, user_password):
+        user = db.query(UserModel).filter(UserModel.email == user_email).filter(UserModel.password == user_password).one_or_none()
+        return user

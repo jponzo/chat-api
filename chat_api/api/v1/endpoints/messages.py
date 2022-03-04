@@ -1,23 +1,18 @@
-from fastapi import APIRouter, HTTPException, Depends, FastAPI
-from fastapi.responses import JSONResponse, Response
-from fastapi.encoders import jsonable_encoder
-from chat_api.models.message import MessageModel
+from fastapi import APIRouter, HTTPException, Depends, Body
 from chat_api.schemas.message import MessageSchema, MessageCreateSchema
 from typing import List
-from fastapi import Body, status
 from chat_api.cruds.message import MessageCrud
 import logging
-from chat_api.core.config import settings
 from chat_api.db.sql import get_db_client
 from sqlalchemy.orm import Session
-
+from chat_api.auth.auth_bearer import JWTBearer
 
 logger = logging.getLogger(__name__)
 
 router = APIRouter()
 
 
-@router.post("/", response_description="Create new message", response_model=MessageSchema)
+@router.post("/", response_description="Create new message", dependencies=[Depends(JWTBearer())], response_model=MessageSchema)
 def create_message(message: MessageCreateSchema = Body(...), db: Session = Depends(get_db_client)):
     created_message = MessageCrud.create(db, message)
     return created_message
