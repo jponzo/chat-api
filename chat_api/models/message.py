@@ -9,4 +9,4 @@ class MessageModel(Base):
     id = Column(Integer, primary_key=True, index=True)
     recipient = Column(Integer, ForeignKey("users.id"))
     sender = Column(Integer, ForeignKey("users.id"))
-    message = Column(String)
+    content = Column(String)

@@ -9,7 +9,7 @@ logger = logging.getLogger(__name__)
 class MessageCrud():
 
     def create(db: Session, message: MessageSchema):
-        new_message = MessageModel(recipient=message.recipient, sender=message.sender, message=message.message)
+        new_message = MessageModel(recipient=message.recipient, sender=message.sender, content=message.content)
         db.add(new_message)
         db.commit()
         db.refresh(new_message)

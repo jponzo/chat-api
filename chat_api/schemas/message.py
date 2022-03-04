@@ -15,14 +15,14 @@ from enum import Enum
 class MessageCreateSchema(BaseModel):
     sender: int = Field(...)
     recipient: int = Field(...)
-    message: str = Field(...)
+    content: str = Field(...)
 
 
 class MessageSchema(BaseModel):
     id: int
     sender: int = Field(...)
     recipient: int = Field(...)
-    message: str = Field(...)
+    content: str = Field(...)
     # message: ThisMessageModel = Field(...)
 
     class Config:

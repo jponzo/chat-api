@@ -35,14 +35,14 @@ def list_users(db: Session = Depends(get_db_client)):
     "/{id}", response_description="Get a single user", response_model=UserSchema
 )
 def get_user(id: str, db: Session = Depends(get_db_client)):
-    user = UserCrud.get(db, id)
+    user = UserCrud.get_user_by_id(db, id)
     if user:
         return user
 
     raise HTTPException(status_code=404, detail=f"User {id} not found")
 
 
-@router.post("/login", tags=["user"])
+@router.post("/login")
 def user_login(user: UserLoginSchema = Body(...), db: Session = Depends(get_db_client)):
     if UserCrud.login(db, user.email, user.password):
         return signJWT(user.email)
