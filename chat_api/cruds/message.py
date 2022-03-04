@@ -25,9 +25,9 @@ class MessageCrud():
         db.refresh(new_message)
         return new_message
 
-    def get_message_by_id(db: Session, message_id: int):
+    def get_by_id(db: Session, message_id: int):
         message = db.query(MessageModel).filter(MessageModel.id == message_id).first()
         return message
 
-    def get_messages_by_recipient(db: Session, recipient_id: int, message_start_id: int, limit: int = 100):
+    def get_by_recipient(db: Session, recipient_id: int, message_start_id: int, limit: int = 100):
         return db.query(MessageModel).filter(MessageModel.recipient == recipient_id).filter(MessageModel.id >= message_start_id).limit(limit).all()

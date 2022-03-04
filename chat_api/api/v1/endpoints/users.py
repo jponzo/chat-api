@@ -15,7 +15,7 @@ router = APIRouter()
 
 
 @router.post("/", response_description="Add new user", response_model=UserSchema)
-def create_user(user: UserCreateSchema = Body(...), db: Session = Depends(get_db_client)):
+def create(user: UserCreateSchema = Body(...), db: Session = Depends(get_db_client)):
     try:
         created_user = UserCrud.create(db, user)
     except IntegrityError as e:
@@ -26,7 +26,7 @@ def create_user(user: UserCreateSchema = Body(...), db: Session = Depends(get_db
 @router.get(
     "/", response_description="List all users", response_model=List[UserSchema]
 )
-def list_users(db: Session = Depends(get_db_client)):
+def list(db: Session = Depends(get_db_client)):
     users = UserCrud.list(db)
     return users
 
@@ -34,8 +34,8 @@ def list_users(db: Session = Depends(get_db_client)):
 @router.get(
     "/{id}", response_description="Get a single user", response_model=UserSchema
 )
-def get_user(id: str, db: Session = Depends(get_db_client)):
-    user = UserCrud.get_user_by_id(db, id)
+def get_by_id(id: str, db: Session = Depends(get_db_client)):
+    user = UserCrud.get_by_id(db, id)
     if user:
         return user
 
@@ -43,7 +43,7 @@ def get_user(id: str, db: Session = Depends(get_db_client)):
 
 
 @router.post("/login")
-def user_login(user: UserLoginSchema = Body(...), db: Session = Depends(get_db_client)):
+def login(user: UserLoginSchema = Body(...), db: Session = Depends(get_db_client)):
     if UserCrud.login(db, user.email, user.password):
         return signJWT(user.email)
     return {

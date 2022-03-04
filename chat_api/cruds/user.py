@@ -1,7 +1,7 @@
 import logging
 from sqlalchemy.orm import Session
 from chat_api.models.user import UserModel
-from chat_api.schemas.user import UserSchema, UserCreateSchema
+from chat_api.schemas.user import UserCreateSchema
 
 logger = logging.getLogger(__name__)
 
@@ -16,13 +16,9 @@ class UserCrud():
         db.refresh(new_user)
         return new_user
 
-    def get_user_by_id(db: Session, user_id: int):
+    def get_by_id(db: Session, user_id: int):
         user = db.query(UserModel).filter(UserModel.id == user_id).first()
         return user
-
-    def get_users_by_recipient(db: Session, recipient_id: int, ):
-        users = db.query(UserModel).filter(UserModel.recipient == recipient_id).first()
-        return users
 
     def list(db: Session):
         users = db.query(UserModel).all()
