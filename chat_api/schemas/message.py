@@ -3,9 +3,6 @@ from enum import Enum
 from typing import Optional
 
 
-
-
-
 class ContentTypeEnum(str, Enum):
     text = 'text'
     image = 'image'
@@ -29,11 +26,14 @@ class ContentSchema(BaseModel):
     def validate_content(cls, values):
         type = values.get('type')
         if type == "text":
-            assert 'text' in values
+            if 'text' not in values:
+                raise ValueError('text content requires extra field: [text]')
         elif type == "image":
-            assert 'url' in values and 'height' in values and 'width' in values
+            if 'url' not in values and 'height' not in values and 'width' not in values:
+                raise ValueError('image content requires extra field: [height, width, url]')
         elif type == "video":
-            assert 'url' in values and 'source' in values
+            if 'url' not in values and 'source' not in values:
+                raise ValueError('video content requires extra field: [source, url]')
         return values
 
     class Config:
