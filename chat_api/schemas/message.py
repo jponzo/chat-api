@@ -20,7 +20,7 @@ class ContentSchema(BaseModel):
     url: Optional[str]
     height: Optional[str]
     width: Optional[str]
-    source: Optional[str]
+    source: Optional[ContentSourceEnum]
 
     @root_validator(pre=True)
     def validate_content(cls, values):
