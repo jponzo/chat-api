@@ -1,6 +1,5 @@
 from chat_api.db.sql import Base
 from sqlalchemy import Column, Integer, String
-from sqlalchemy.orm import relationship
 
 
 class UserModel(Base):

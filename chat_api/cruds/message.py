@@ -1,7 +1,8 @@
 import logging
 from sqlalchemy.orm import Session
 from chat_api.models.message import MessageModel
-from chat_api.schemas.message import MessageSchema
+from chat_api.models.content import ContentModel
+from chat_api.schemas.message import MessageSchema, ContentSchema
 
 logger = logging.getLogger(__name__)
 
@@ -9,7 +10,16 @@ logger = logging.getLogger(__name__)
 class MessageCrud():
 
     def create(db: Session, message: MessageSchema):
-        new_message = MessageModel(recipient=message.recipient, sender=message.sender, content=message.content)
+        new_content_dict = message.content.dict()
+        new_content = ContentModel(**new_content_dict,)
+        db.add(new_content)
+        db.commit()
+        db.refresh(new_content)
+
+        new_message = MessageModel(recipient=message.recipient,
+                                   sender=message.sender,
+                                   content_id=new_content.id
+                                   )
         db.add(new_message)
         db.commit()
         db.refresh(new_message)
