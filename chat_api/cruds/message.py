@@ -1,34 +1,23 @@
-from chat_api.db.mongodb import get_db_client
 import logging
-from bson import ObjectId
-
+from sqlalchemy.orm import Session
+from chat_api.models.message import MessageModel
+from chat_api.schemas.message import MessageSchema
 
 logger = logging.getLogger(__name__)
 
 
 class MessageCrud():
 
-    async def create(message):
-        client = await get_db_client()
-        db = client.messages
-        new_message = await db["messages"].insert_one(message)
-        created_message = await db["messages"].find_one({"_id": new_message.inserted_id})
-        return created_message
+    def create(db: Session, message: MessageSchema):
+        new_message = MessageModel(recipient=message.recipient, sender=message.sender, message=message.message)
+        db.add(new_message)
+        db.commit()
+        db.refresh(new_message)
+        return new_message
 
-    async def get(id):
-        client = await get_db_client()
-        db = client.messages
-        message = await db["messages"].find_one({"_id": id})
+    def get_message_by_id(db: Session, message_id: int):
+        message = db.query(MessageModel).filter(MessageModel.id == message_id).first()
         return message
 
-    async def get_by_recipient(recipient_id, message_start_id, limit):
-        client = await get_db_client()
-        db = client.messages
-        messages = await db["messages"].find({"recipient_id": recipient_id, "_id": {"$gt": ObjectId(message_start_id)}}).to_list(limit)
-        return messages
-
-    async def list():
-        client = await get_db_client()
-        db = client.messages
-        messages = await db["messages"].find().to_list(1000)
-        return messages
+    def get_messages_by_recipient(db: Session, recipient_id: int, message_start_id: int, limit: int = 100):
+        return db.query(MessageModel).filter(MessageModel.recipient == recipient_id).filter(MessageModel.id >= message_start_id).limit(limit).all()

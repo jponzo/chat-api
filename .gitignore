@@ -9,3 +9,4 @@ chat_api.egg-info/
 .coverage
 .env
 .idea/
+sql_app.db
