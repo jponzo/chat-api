@@ -1,9 +1,6 @@
 from sqlalchemy import create_engine
 from sqlalchemy.ext.declarative import declarative_base
 from sqlalchemy.orm import sessionmaker
-from chat_api.core.config import settings
-
-DB_URL = settings.DB_URL
 
 SQLALCHEMY_DATABASE_URL = "sqlite:///./sql_app.db"
 
