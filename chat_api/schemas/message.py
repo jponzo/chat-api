@@ -29,10 +29,10 @@ class ContentSchema(BaseModel):
             if 'text' not in values:
                 raise ValueError('text content requires extra field: [text]')
         elif type == "image":
-            if 'url' not in values and 'height' not in values and 'width' not in values:
+            if 'url' not in values or 'height' not in values or 'width' not in values:
                 raise ValueError('image content requires extra field: [height, width, url]')
         elif type == "video":
-            if 'url' not in values and 'source' not in values:
+            if 'url' not in values or 'source' not in values:
                 raise ValueError('video content requires extra field: [source, url]')
         return values
 

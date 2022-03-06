@@ -46,6 +46,4 @@ def get_by_id(id: str, db: Session = Depends(get_db_client)):
 def login(user: UserLoginSchema = Body(...), db: Session = Depends(get_db_client)):
     if UserCrud.login(db, user.email, user.password):
         return signJWT(user.email)
-    return {
-        "error": "Wrong login details!"
-    }
+    raise HTTPException(status_code=401, detail=f"Invalid User or Password")
