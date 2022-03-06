@@ -18,7 +18,7 @@ class TestMessages(BaseTestCase):
         }
         response = self.client.post("/messages",
                                     data=json.dumps(create_payload),
-                                    headers=self.build_headers(self.login_user()))
+                                    headers=self.build_headers(token=self.login_user()))
         assert response.status_code == 200
 
     def test_create_text_message_success(self):
@@ -35,7 +35,7 @@ class TestMessages(BaseTestCase):
         }
         response = self.client.post("/messages",
                                     data=json.dumps(create_payload),
-                                    headers=self.build_headers(self.login_user()))
+                                    headers=self.build_headers(token=self.login_user()))
         assert response.status_code == 422
 
     def test_create_video_message_success(self):
@@ -53,7 +53,7 @@ class TestMessages(BaseTestCase):
         }
         response = self.client.post("/messages",
                                     data=json.dumps(create_payload),
-                                    headers=self.build_headers(self.login_user()))
+                                    headers=self.build_headers(token=self.login_user()))
         assert response.status_code == 200
 
     def test_create_video_message_error(self):
@@ -70,7 +70,7 @@ class TestMessages(BaseTestCase):
         }
         response = self.client.post("/messages",
                                     data=json.dumps(create_payload),
-                                    headers=self.build_headers(self.login_user()))
+                                    headers=self.build_headers(token=self.login_user()))
         assert response.status_code == 422
 
     def test_create_image_message_success(self):
@@ -89,7 +89,7 @@ class TestMessages(BaseTestCase):
         }
         response = self.client.post("/messages",
                                     data=json.dumps(create_payload),
-                                    headers=self.build_headers(self.login_user()))
+                                    headers=self.build_headers(token=self.login_user()))
         assert response.status_code == 200
 
     def test_create_image_message_error(self):
@@ -107,8 +107,27 @@ class TestMessages(BaseTestCase):
         }
         response = self.client.post("/messages",
                                     data=json.dumps(create_payload),
-                                    headers=self.build_headers(self.login_user()))
+                                    headers=self.build_headers(token=self.login_user()))
         assert response.status_code == 422
+
+    def test_create_image_message_unauthorized(self):
+
+        self.create_user()
+
+        create_payload = {
+            "sender": 1,
+            "recipient": 2,
+            "content": {
+                "type": "image",
+                "height": 123,
+                "width": 123,
+                "url": "test"
+            }
+        }
+        response = self.client.post("/messages",
+                                    data=json.dumps(create_payload),
+                                    headers=self.build_headers(token=1234))
+        assert response.status_code == 403
 
     def test_get_message_by_recipient_ok(self):
 

@@ -2,6 +2,9 @@ import time
 from typing import Dict
 import jwt
 from chat_api.core.config import settings
+import logging
+
+logger = logging.getLogger(__name__)
 
 JWT_SECRET = settings.JWT_SECRET
 JWT_ALGORITHM = settings.JWT_ALGORITHM
@@ -24,8 +27,5 @@ def signJWT(user_id: str) -> Dict[str, str]:
 
 
 def decodeJWT(token: str) -> dict:
-    try:
-        decoded_token = jwt.decode(token, JWT_SECRET, algorithms=[JWT_ALGORITHM])
-        return decoded_token if decoded_token["expires"] >= time.time() else None
-    except Exception as e:
-        return e
+    decoded_token = jwt.decode(token, JWT_SECRET, algorithms=[JWT_ALGORITHM])
+    return decoded_token if decoded_token["expires"] >= time.time() else None

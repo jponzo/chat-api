@@ -20,7 +20,7 @@ class BaseTestCase(unittest.TestCase):
         """
         drop_db()
 
-    def build_headers(self, token=None):
+    def build_headers(self, token: str = None):
 
         headers = {
             "content-type": "application/json"
@@ -31,7 +31,7 @@ class BaseTestCase(unittest.TestCase):
 
         return headers
 
-    def create_user(self, name="john"):
+    def create_user(self, name: str = "john"):
         create_payload = {
             "name": name,
             "email": f"{name}@email.com",
@@ -41,7 +41,7 @@ class BaseTestCase(unittest.TestCase):
                          data=json.dumps(create_payload),
                          headers=self.build_headers())
 
-    def login_user(self, name="john"):
+    def login_user(self, name: str = "john"):
         create_payload = {
             "email": f"{name}@email.com",
             "password": "1234"
