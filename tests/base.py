@@ -4,13 +4,20 @@ import unittest
 from chat_api.db.sql import drop_db, initialize_db
 import json
 
+
 class BaseTestCase(unittest.TestCase):
 
     def setUp(self):
+        """
+        Initialize db and test client before testing
+        """
         initialize_db()
         self.client = TestClient(app)
 
     def tearDown(self):
+        """
+        Drop Database after testing
+        """
         drop_db()
 
     def build_headers(self, token=None):

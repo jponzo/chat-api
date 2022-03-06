@@ -17,3 +17,7 @@ make run
 # run:
 http://0.0.0.0:8000/docs
 ```
+
+#TO-DO
+* Add message status and timestamp for delivered and read
+* Automatically set sender based on token when creating a message
