@@ -12,14 +12,14 @@ logger = logging.getLogger(__name__)
 router = APIRouter()
 
 
-@router.post("/", response_description="Create new message", dependencies=[Depends(JWTBearer())], response_model=MessageSchema, response_model_exclude_none=True)
+@router.post("", response_description="Create new message", dependencies=[Depends(JWTBearer())], response_model=MessageSchema, response_model_exclude_none=True)
 def create(message: MessageCreateSchema = Body(...), db: Session = Depends(get_db_client)):
     created_message = MessageCrud.create(db, message)
     return created_message
 
 
 @router.get(
-    "/", response_description="Get messages", response_model=List[MessageSchema], response_model_exclude_none=True
+    "", response_description="Get messages", response_model=List[MessageSchema], response_model_exclude_none=True
 )
 def get_by_recipient(recipient_id: str, message_start_id: str, limit: int = 100, db: Session = Depends(get_db_client)):
     messages = MessageCrud.get_by_recipient(db, recipient_id, message_start_id, limit)

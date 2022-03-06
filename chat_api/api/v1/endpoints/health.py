@@ -15,7 +15,7 @@ router = APIRouter()
 
 
 @router.get(
-    "/", response_description="health-check", status_code=200
+    "", response_description="health-check", status_code=200
 )
 def health():
     return {"status": "ok"}

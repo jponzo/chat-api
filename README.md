@@ -1,6 +1,6 @@
 # chat-api
 
-Chat API
+This is an API to send text, video and image messages between authenticated users.
 
 #Testing
 ```bash
@@ -10,4 +10,10 @@ make test
 ```bash
 # run:
 make run
+```
+
+#API Reference
+```bash
+# run:
+http://0.0.0.0:8000/docs
 ```

@@ -14,7 +14,7 @@ logger = logging.getLogger(__name__)
 router = APIRouter()
 
 
-@router.post("/", response_description="Add new user", response_model=UserSchema)
+@router.post("", response_description="Add new user", response_model=UserSchema)
 def create(user: UserCreateSchema = Body(...), db: Session = Depends(get_db_client)):
     try:
         created_user = UserCrud.create(db, user)
@@ -24,7 +24,7 @@ def create(user: UserCreateSchema = Body(...), db: Session = Depends(get_db_clie
 
 
 @router.get(
-    "/", response_description="List all users", response_model=List[UserSchema]
+    "", response_description="List all users", response_model=List[UserSchema]
 )
 def list(db: Session = Depends(get_db_client)):
     users = UserCrud.list(db)
