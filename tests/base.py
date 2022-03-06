@@ -3,25 +3,21 @@ from chat_api.app import app
 import unittest
 from chat_api.db.sql import drop_db, initialize_db
 import json
+from typing import Dict
 
 
 class BaseTestCase(unittest.TestCase):
 
     def setUp(self):
-        """
-        Initialize db and test client before testing
-        """
+        """Initialize db and test client before testing."""
         initialize_db()
         self.client = TestClient(app)
 
     def tearDown(self):
-        """
-        Drop Database after testing
-        """
+        """Drop Database after testing."""
         drop_db()
 
-    def build_headers(self, token: str = None):
-
+    def build_headers(self, token: str = None) -> Dict:
         headers = {
             "content-type": "application/json"
         }
@@ -41,7 +37,7 @@ class BaseTestCase(unittest.TestCase):
                          data=json.dumps(create_payload),
                          headers=self.build_headers())
 
-    def login_user(self, name: str = "john"):
+    def login_user(self, name: str = "john") -> str:
         create_payload = {
             "email": f"{name}@email.com",
             "password": "1234"
@@ -52,7 +48,6 @@ class BaseTestCase(unittest.TestCase):
         return json.loads(response.text)['access_token']
 
     def create_message(self):
-
         create_payload = {
             "sender": 1,
             "recipient": 2,
